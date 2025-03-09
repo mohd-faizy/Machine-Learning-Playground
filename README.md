@@ -42,8 +42,7 @@
 
 ### **📌 UI Preview**
 
-[![🚀 Try it Now](https://img.shields.io/badge/Try%20Live-Click%20Here-28a745?style=for-the-badge)](#)
-![ML Playground UI](assets\ml-plyg.png)
+![ML Playground UI](https://raw.githubusercontent.com/mohd-faizy/Machine-Learning-Playground/refs/heads/main/assets/ml-plyg.png)
 
 
 
