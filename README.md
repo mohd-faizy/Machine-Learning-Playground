@@ -66,8 +66,8 @@ Ensure you have the following installed:
 
 ### **📥 Clone the Repository**
 ```bash
-$ git clone https://github.com/yourusername/ml-playground.git
-$ cd ml-playground
+$ git clone https://github.com/mohd-faizy/Machine-Learning-Playground.git
+$ cd Machine-Learning-Playground
 ```
 
 ### **📦 Install Dependencies**
@@ -118,7 +118,6 @@ ML-Playground/
 
 ### 🤖 **Available Machine Learning Models**
 
-#### ✅ **Classification Models:**
 - Logistic Regression
 - Decision Tree
 - Random Forest
@@ -127,14 +126,6 @@ ML-Playground/
 - Gradient Boosting
 - Neural Network (MLP)
 
-#### ✅ **Regression Models:**
-- Linear Regression
-- Decision Tree
-- Random Forest
-- k-Nearest Neighbors
-- Support Vector Regressor
-- Gradient Boosting
-- Neural Network (MLP)
 
 ---
 
