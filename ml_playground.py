@@ -425,6 +425,59 @@ if df is not None:
         st.write(f"**Rows**: {df.shape[0]}, **Columns**: {df.shape[1]}")
         st.write(f"**Target Variable**: {target}")
         
+        # ... existing code for data overview ...
+
+    # -------------------------------
+    # Tab 2: Data Analysis
+    # -------------------------------
+    with tabs[1]:
+        st.markdown('<p class="subheader">Data Analysis</p>', unsafe_allow_html=True)
+        
+        # ... existing code for data analysis ...
+
+    # -------------------------------
+    # Tab 3: Model Training
+    # -------------------------------
+    with tabs[2]:
+        st.markdown('<p class="subheader">Model Training & Evaluation</p>', unsafe_allow_html=True)
+        
+        # ... existing code for model training ...
+
+    # -------------------------------
+    # Tab 4: Visualizations
+    # -------------------------------
+    with tabs[3]:
+        st.markdown('<p class="subheader">Model Visualizations</p>', unsafe_allow_html=True)
+        
+        # ... existing code for visualizations ...
+
+    # -------------------------------
+    # Tab 5: Predictions
+    # -------------------------------
+    with tabs[4]:
+        st.markdown('<p class="subheader">Make Predictions</p>', unsafe_allow_html=True)
+        
+        # ... existing code for predictions ...
+
+# -------------------------------
+# Main Content
+# -------------------------------
+if df is not None:
+    # Create tabs for better organization
+    tabs = st.tabs(["📊 Data Overview", "🔍 Data Analysis", "🤖 Model Training", "📈 Visualizations", "🔮 Predictions"])
+    
+    # -------------------------------
+    # Tab 1: Data Overview
+    # -------------------------------
+    with tabs[0]:
+        st.markdown('<p class="subheader">Dataset Overview</p>', unsafe_allow_html=True)
+        
+        # Basic dataset info
+        st.write(f"**Dataset**: {dataset_option}")
+        st.write(f"**Problem Type**: {problem_type}")
+        st.write(f"**Rows**: {df.shape[0]}, **Columns**: {df.shape[1]}")
+        st.write(f"**Target Variable**: {target}")
+        
         # Import plotly for better tables
         import plotly.graph_objects as go
         
