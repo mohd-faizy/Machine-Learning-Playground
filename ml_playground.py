@@ -287,7 +287,7 @@ st.markdown("""
 <div style="text-align: center; margin-bottom: 2rem;">
     <p style="font-size: 1.2rem; color: #555;">
         Explore, train, and evaluate machine learning models with an intuitive interface.
-        Select options from the sidebar to get started on your data science journey!
+        Select options from the sidebar!
     </p>
 </div>
 """, unsafe_allow_html=True)
