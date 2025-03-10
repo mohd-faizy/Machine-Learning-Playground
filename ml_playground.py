@@ -296,7 +296,7 @@ st.markdown("""
 # Sidebar Configuration
 # -------------------------------
 with st.sidebar:
-    st.image("assets\ml-playground.png", width=300)
+    st.image("assets/ml-playground.png", width=300)
     st.markdown('<p class="sidebar-header">ML Playground Configuration</p>', unsafe_allow_html=True)
     
     # Problem type selection with icons
