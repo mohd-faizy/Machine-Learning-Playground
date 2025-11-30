@@ -164,4 +164,75 @@ def train_models(df, target, selected_models, problem_type, test_size, random_st
             model_predictions, 
             model_probs, 
             trained_models_map, 
-            y_test)
+            y_test,
+            scaler)
+
+def render_prediction_interface(df, target, trained_models, le_dict, scaler, problem_type):
+    """Render the prediction interface."""
+    st.markdown('<p class="subheader">Make Predictions</p>', unsafe_allow_html=True)
+    
+    if not trained_models:
+        st.warning("Please train at least one model first.")
+        return
+
+    # Input Form
+    st.markdown("### 📝 Input Features")
+    with st.form("prediction_form"):
+        col1, col2 = st.columns(2)
+        input_data = {}
+        
+        # Get feature columns (exclude target)
+        feature_cols = [col for col in df.columns if col != target]
+        
+        for i, col in enumerate(feature_cols):
+            with col1 if i % 2 == 0 else col2:
+                # Check if categorical (in le_dict)
+                if col in le_dict:
+                    # Get original classes
+                    classes = le_dict[col].classes_
+                    selected_val = st.selectbox(f"{col}", classes)
+                    # Store encoded value for prediction
+                    input_data[col] = le_dict[col].transform([selected_val])[0]
+                else:
+                    # Numeric input
+                    val = st.number_input(f"{col}", value=float(df[col].mean()))
+                    input_data[col] = val
+                    
+        submit_button = st.form_submit_button("🔮 Predict")
+        
+    if submit_button:
+        # Create DataFrame from input
+        input_df = pd.DataFrame([input_data])
+        
+        # Scale input
+        if scaler:
+            input_scaled = scaler.transform(input_df)
+        else:
+            input_scaled = input_df
+            
+        st.markdown("### 🎯 Prediction Results")
+        
+        # Display predictions for all trained models
+        results = []
+        for model_name, model in trained_models.items():
+            pred = model.predict(input_scaled)[0]
+            
+            if problem_type == "Classification":
+                # Get probability if available
+                prob = None
+                if hasattr(model, "predict_proba"):
+                    prob = model.predict_proba(input_scaled)[0]
+                    
+                # Decode prediction if target was encoded
+                # (Assuming target is encoded if it's in le_dict, but target is usually handled separately in load_dataset)
+                # For now, we'll display the raw prediction or try to map it if we had the target encoder.
+                # In data.py, target is not added to le_dict, but we can check if it's categorical.
+                
+                res = {"Model": model_name, "Prediction": pred}
+                if prob is not None:
+                    res["Probability"] = f"{max(prob):.2%}"
+                results.append(res)
+            else:
+                results.append({"Model": model_name, "Prediction": f"{pred:.4f}"})
+                
+        st.dataframe(pd.DataFrame(results), use_container_width=True)
