@@ -2,11 +2,11 @@
 
 # Machine-Learning-Playground
 
-[**Demo**](#demo) |
-[**Quick Start**](#quick-start) |
-[**Features**](#features) |
-[**Models & Datasets**](#models--datasets) |
-[**File Structure**](#file-structure) |
+[**Live Playground**](#demo) |
+[**Installation**](#quick-start) |
+[**ML Capabilities**](#features) |
+[**Algorithms & Data**](#models--datasets) |
+[**App Architecture**](#file-structure) |
 [**License**](#license)
 
 ![Author](https://img.shields.io/badge/Author-mohd--faizy-red?style=for-the-badge&logo=github&logoColor=white)
