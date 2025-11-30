@@ -32,7 +32,7 @@ A full-stack, interactive machine learning playground built with **Streamlit**. 
 
 ### ui preview
 
-[![Try Live](https://img.shields.io/badge/Try%20Live-Click%20Here-28a745?style=for-the-badge)](https://xswbj4jfkurhmdxtriz9gw.streamlit.app)
+[![Try Live](https://img.shields.io/badge/Try%20Live-Click%20Here-28a745?style=for-the-badge)](https://mohd-faizy-machine-learning-playground-main-khdhoj.streamlit.app/)
 
 ![ML Playground UI](assets/ml-plyg.png)
 
