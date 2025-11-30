@@ -2,7 +2,7 @@ import streamlit as st
 from app.ui import setup_page, render_header, render_sidebar_header, render_footer
 from app.data import load_dataset, preprocess_data
 from app.analysis import render_data_overview, render_analysis, render_model_evaluation
-from app.models import train_models, get_models
+from app.models import train_models, get_models, render_prediction_interface
 from app.features import render_feature_engineering
 import pandas as pd
 
@@ -47,16 +47,22 @@ df, target = load_dataset(problem_type, dataset_option)
 
 if df is not None:
     # Initial Preprocessing (Missing values, Encoding)
-    df_processed, _ = preprocess_data(df, target)
+    df_processed, le_dict = preprocess_data(df, target)
     
     # Initialize or update session state for engineered data
     if 'current_dataset' not in st.session_state:
         st.session_state.current_dataset = dataset_option
         st.session_state.df_engineered = df_processed.copy()
+        st.session_state.le_dict = le_dict
+        st.session_state.trained_models = {}
+        st.session_state.scaler = None
         
     if st.session_state.current_dataset != dataset_option:
         st.session_state.df_engineered = df_processed.copy()
         st.session_state.current_dataset = dataset_option
+        st.session_state.le_dict = le_dict
+        st.session_state.trained_models = {}
+        st.session_state.scaler = None
         
     if 'df_engineered' not in st.session_state:
         st.session_state.df_engineered = df_processed.copy()
@@ -75,7 +81,7 @@ if df is not None:
         
     # Tab 3: Analysis
     with tabs[2]:
-        render_analysis(st.session_state.df_engineered, target, problem_type)
+        render_analysis(st.session_state.df_engineered, target, problem_type, st.session_state.le_dict)
         
     # Tab 4: Training
     with tabs[3]:
@@ -92,10 +98,14 @@ if df is not None:
             if not selected_models:
                 st.warning("Please select at least one model.")
             else:
-                results_df, predictions, probs, trained_models, y_test = train_models(
+                results_df, predictions, probs, trained_models, y_test, scaler = train_models(
                     st.session_state.df_engineered, target, selected_models, problem_type, 
                     test_size, random_state, scaler_option
                 )
+                
+                # Store trained models and scaler in session state
+                st.session_state.trained_models = trained_models
+                st.session_state.scaler = scaler
                 
                 if results_df is not None:
                     st.markdown("### Performance Metrics")
@@ -112,9 +122,16 @@ if df is not None:
                     # Advanced Evaluation
                     render_model_evaluation(y_test, predictions, probs, problem_type)
 
-    # Tab 5: Predictions (Placeholder for now)
+    # Tab 5: Predictions
     with tabs[4]:
-        st.info("Prediction interface coming soon! Use the Model Training tab to evaluate models.")
+        render_prediction_interface(
+            st.session_state.df_engineered, 
+            target, 
+            st.session_state.trained_models, 
+            st.session_state.le_dict,
+            st.session_state.scaler,
+            problem_type
+        )
 
 else:
     st.info("Please upload a CSV file or select a dataset to get started.")
