@@ -1,196 +1,94 @@
-# 🤖 ML Playground: Explore, Train, and Evaluate Machine Learning Models with Ease 🚀
+# machine-learning-playground
 
-![author](https://img.shields.io/badge/author-mohd--faizy-red)
-![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white)
-![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white)
-![scikit-learn](https://img.shields.io/badge/scikit_learn-F7931E?logo=scikit-learn&logoColor=white)
-![Pandas](https://img.shields.io/badge/pandas-150458?logo=pandas&logoColor=white)
-![Seaborn](https://img.shields.io/badge/seaborn-4C78A8?logo=seaborn&logoColor=white)
-![Matplotlib](https://img.shields.io/badge/matplotlib-008DE4?logo=matplotlib&logoColor=white)
-![Joblib](https://img.shields.io/badge/joblib-F0AB34?logoColor=white&logo=python)
-![Plotly](https://img.shields.io/badge/plotly-3F4F75?logo=plotly&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green)
+[![Author](https://img.shields.io/badge/Author-mohd--faizy-red?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mohd-faizy)
+[![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![Scikit-Learn](https://img.shields.io/badge/scikit_learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
+[![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)](https://pandas.pydata.org/)
+[![Plotly](https://img.shields.io/badge/Plotly-3F4F75?style=for-the-badge&logo=plotly&logoColor=white)](https://plotly.com/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+[![Maintenance](https://img.shields.io/badge/Maintained-Yes-brightgreen?style=for-the-badge)](https://github.com/mohd-faizy/Machine-Learning-Playground)
 
----
+A full-stack, interactive machine learning playground built with **Streamlit**. Bridge the gap between theory and practice by exploring datasets, engineering features, training advanced models (XGBoost, LightGBM, CatBoost), and evaluating performance—all without writing code.
 
-## 🌟 Overview
+## demo
 
-**ML Playground** is an interactive **Streamlit** web application that allows you to **explore, train, and evaluate machine learning models** without writing extensive code. Whether you're a beginner, student, or experienced data scientist, this tool provides an easy and interactive way to experiment with different models and datasets.
+### ui preview
 
-### 🔥 Why Use ML Playground?
-✅ **Supports Classification & Regression:** Train models on various datasets.  
-✅ **Built-in Datasets & Custom Uploads:** Work with Iris, Titanic, Wine, Breast Cancer, Boston Housing, Diabetes, California Housing, and more!  
-✅ **Multiple ML Models:** Train and compare algorithms from scikit-learn effortlessly.  
-✅ **Interactive Data Visualization:** Understand data with insightful visualizations.  
-✅ **User-Friendly UI:** No coding required – just select, train, and analyze!  
+[![Try Live](https://img.shields.io/badge/Try%20Live-Click%20Here-28a745?style=for-the-badge)](https://xswbj4jfkurhmdxtriz9gw.streamlit.app)
 
----
+![ML Playground UI](assets/ml-plyg.png)
 
-## 🎯 Key Features
+### application workflow
 
-🔹 **Dataset Selection**: Choose built-in datasets or upload your own CSV.  
-🔹 **Problem Type Switching**: Seamlessly switch between classification and regression.  
-🔹 **Model Training**: Select and train multiple models with a few clicks.  
-🔹 **Performance Metrics**: Evaluate models with accuracy, RMSE, R² scores, and more.  
-🔹 **Model Comparison**: Visualize model performance for better decision-making.  
-🔹 **Prediction Interface**: Make predictions with trained models interactively.  
-🔹 **Custom Settings**: Adjust test set split, random state, and feature scaling.  
+1.  **Select Dataset & Problem Type** (Classification or Regression)
+2.  **Choose ML Models** from scikit-learn
+3.  **Train & Evaluate Models** using performance metrics
+4.  **Compare Results & Make Predictions**
 
----
+## quick start
 
-## 🖥️ Demo Screenshots
-
-### **📌 UI Preview**
-
-[![🚀 Try it Now](https://img.shields.io/badge/Try%20Live-Click%20Here-28a745?style=for-the-badge)](https://xswbj4jfkurhmdxtriz9gw.streamlit.app)
-
-![ML Playground UI](https://raw.githubusercontent.com/mohd-faizy/Machine-Learning-Playground/refs/heads/main/assets/ml-plyg.png)
-
-
-
-
-### **📌 Application Workflow**
-
-1️⃣ **Select Dataset & Problem Type** (Classification or Regression)  
-2️⃣ **Choose ML Models** from scikit-learn  
-3️⃣ **Train & Evaluate Models** using performance metrics  
-4️⃣ **Compare Results & Make Predictions**
-
----
-
-## ⚡ Installation & Setup
-
-### **🔧 Prerequisites**
-Ensure you have the following installed:
-- **Python 3.9+**
-- **pip** (Python package manager)
-- **Git** (for cloning the repository)
-
-### **📥 Clone the Repository**
 ```bash
-$ git clone https://github.com/mohd-faizy/Machine-Learning-Playground.git
-$ cd Machine-Learning-Playground
+git clone https://github.com/mohd-faizy/Machine-Learning-Playground.git
+cd Machine-Learning-Playground
+
+# using uv (recommended)
+pip install uv
+uv venv
+source .venv/bin/activate  # or .venv\Scripts\activate on Windows
+uv pip install -r requirements.txt
+
+# run
+streamlit run main.py
 ```
 
-### **📦 Install Dependencies**
-```bash
-$ pip install -r requirements.txt
+The application will launch at `http://localhost:8501`.
+
+## features
+
+- **Data**: Built-in datasets (Iris, Titanic, Penguins, Housing, etc.) + Custom CSV upload.
+- **Preprocessing**: Robust scaling, missing value imputation, categorical encoding.
+- **Feature Engineering**: PCA (2D/3D visualization), SelectKBest, Feature Importance.
+- **Models**: Scikit-learn suite + Gradient Boosting (XGBoost, LightGBM, CatBoost).
+- **Analysis**: Interactive Plotly/Seaborn charts, Correlation Heatmaps, Target Distribution.
+- **Evaluation**: Confusion Matrix, ROC/AUC, Residuals, Learning Curves.
+
+## models & datasets
+
+| **Problem Type** | **Algorithms** | **Datasets** |
+| :--- | :--- | :--- |
+| **Classification** | Logistic Regression, Random Forest, SVM, k-NN, Naive Bayes, XGBoost, LightGBM, CatBoost | Iris, Titanic, Penguins, Breast Cancer, Wine, Digits |
+| **Regression** | Linear Regression, Decision Tree, Random Forest, SVR, Gradient Boosting, MLP | Boston Housing, Diabetes, California Housing, Tips, Diamonds, Planets |
+
+> **Note**: Custom CSV upload is supported for both problem types.
+
+## file structure
+
+```
+Machine-Learning-Playground/
+├── app/
+│   ├── analysis.py    # visualization & metrics
+│   ├── data.py        # loading & preprocessing
+│   ├── features.py    # pca & selection
+│   ├── models.py      # training logic
+│   ├── ui.py          # streamlit config
+│   └── utils.py       # helpers
+├── assets/            # static resources
+├── main.py            # entry point
+└── requirements.txt   # dependencies
 ```
 
-### **🚀 Run the Application**
-```bash
-$ streamlit run ml_playground.py
-```
-The application will launch in your browser at `http://localhost:8501/`.
+## license
 
----
+MIT
 
-## 📂 Directory Structure
+## connect with me
 
-```plaintext
-ML-Playground/
-├── .vscode/               # VSCode settings (optional)
-├── assets/                # Images, icons, or other static assets
-├── saved_models/          # Folder for storing trained models
-├── venv/                  # Python virtual environment (optional)
-├── ml_playground.py       # Main Streamlit application file
-├── requirements.txt       # Python dependencies
-└── README.md              # Project documentation
-```
+<div align="center">
 
----
+[![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/F4izy)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mohd-faizy/)
+[![Stack Exchange](https://img.shields.io/badge/Stack_Exchange-1E5397?style=for-the-badge&logo=stack-exchange&logoColor=white)](https://ai.stackexchange.com/users/36737/faizy)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mohd-faizy)
 
-## 🚀 Supported Datasets & Models
-
-### 📊 **Built-in Datasets**
-
-- **Classification Datasets:**
-    - Iris
-    - Titanic
-    - Wine
-    - Breast Cancer
-    - Digits
-    - Custom CSV Upload
-  
-- **Regression Datasets:**
-    - Boston Housing
-    - Diabetes
-    - California Housing
-    - Custom CSV Upload
-
-### 🤖 **Available Machine Learning Models**
-
-- Logistic Regression
-- Decision Tree
-- Random Forest
-- k-Nearest Neighbors
-- Support Vector Machine
-- Gradient Boosting
-- Neural Network (MLP)
-
-
----
-
-## 🔬 How It Works
-
-- 1️⃣ **Select Dataset & Problem Type** → Choose from built-in datasets or upload a CSV.  
-- 2️⃣ **Configure Settings** → Adjust test size, random state, and scaling options.  
-- 3️⃣ **Train Multiple Models** → Select models and start training.  
-- 4️⃣ **Analyze Performance** → Get detailed metrics, charts, and comparisons.  
-- 5️⃣ **Make Predictions** → Use trained models to make real-time predictions.
-
----
-
-## 📌 Technologies Used
-
-| **Technology**  | **Purpose**  |
-|----------------|--------------|
-| **Streamlit**  | Interactive web UI |
-| **scikit-learn** | Machine learning models |
-| **Pandas**     | Data manipulation |
-| **NumPy**      | Numerical computations |
-| **Matplotlib**  | Data visualization |
-| **Seaborn**    | Statistical plotting |
-| **Joblib**     | Model persistence |
-| **Plotly**     | Interactive plots |
-
----
-
-## 🌍 Contributing
-
-Want to improve this project? Follow these steps:
-
-1. **Fork the repository**
-2. **Create a new branch** (`git checkout -b feature-name`)
-3. **Make changes and commit** (`git commit -m "Added feature XYZ"`)
-4. **Push to your fork** (`git push origin feature-name`)
-5. **Create a Pull Request** 🚀
-
----
-
-## ⚖ License
-
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
-
----
-
-## ❤️ Support
-
-If you like this project, consider giving it a ⭐ on GitHub!
-
-## 🔗Connect with me
-
-➤ If you have questions or feedback, feel free to reach out!!!
-
-[<img align="left" src="https://cdn4.iconfinder.com/data/icons/social-media-icons-the-circle-set/48/twitter_circle-512.png" width="32px"/>][twitter]
-[<img align="left" src="https://cdn-icons-png.flaticon.com/512/145/145807.png" width="32px"/>][linkedin]
-[<img align="left" src="https://cdn-icons-png.flaticon.com/512/2626/2626299.png" width="32px"/>][Portfolio]
-
-[twitter]: https://twitter.com/F4izy
-[linkedin]: https://www.linkedin.com/in/mohd-faizy/
-[Portfolio]: https://ai.stackexchange.com/users/36737/faizy?tab=profile
-
----
-
-<img src="https://github-readme-stats.vercel.app/api?username=mohd-faizy&show_icons=true" width=380px height=200px />
-
+</div>
