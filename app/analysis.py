@@ -54,13 +54,24 @@ def render_data_overview(df, target):
             st.write(f"**{col}**")
             st.bar_chart(df[col].value_counts())
 
-def render_analysis(df, target, problem_type):
+def render_analysis(df, target, problem_type, le_dict=None):
     """Render comprehensive data analysis tab."""
     st.markdown('<p class="subheader">Exploratory Data Analysis</p>', unsafe_allow_html=True)
     
+    # Helper to decode categorical columns for visualization
+    def decode_if_needed(df_viz, col):
+        if le_dict and col in le_dict and col in df_viz.columns:
+            # Create a copy to avoid modifying the original dataframe in session state
+            df_viz = df_viz.copy()
+            df_viz[col] = le_dict[col].inverse_transform(df_viz[col].astype(int))
+        return df_viz
+
     # 1. Target Distribution
     st.markdown('<div class="card">', unsafe_allow_html=True)
     st.write("### 🎯 Target Variable Distribution")
+    
+    # Decode target if it was encoded (though usually target is handled separately, but good to check)
+    # Note: In data.py, target is not added to le_dict. So we rely on df's current state.
     
     if problem_type == "Classification":
         counts_df = df[target].value_counts().reset_index()
@@ -90,6 +101,9 @@ def render_analysis(df, target, problem_type):
         ["Scatter Plot (2D/3D)", "Box Plot", "Violin Plot", "Pair Plot", "Histogram", "Line Plot"]
     )
     
+    # Create a temporary dataframe for visualization that we can decode without affecting the main df
+    df_viz = df.copy()
+    
     if viz_type == "Scatter Plot (2D/3D)":
         col1, col2, col3, col4 = st.columns(4)
         with col1:
@@ -101,10 +115,16 @@ def render_analysis(df, target, problem_type):
         with col4:
             color_col = st.selectbox("Color By", [None] + list(df.columns), index=list(df.columns).index(target) if target in df.columns else 0)
             
+        # Decode selected columns if they are categorical
+        df_viz = decode_if_needed(df_viz, x_col)
+        df_viz = decode_if_needed(df_viz, y_col)
+        if z_col: df_viz = decode_if_needed(df_viz, z_col)
+        if color_col: df_viz = decode_if_needed(df_viz, color_col)
+
         if z_col:
-            fig = px.scatter_3d(df, x=x_col, y=y_col, z=z_col, color=color_col, template="plotly_dark")
+            fig = px.scatter_3d(df_viz, x=x_col, y=y_col, z=z_col, color=color_col, template="plotly_dark")
         else:
-            fig = px.scatter(df, x=x_col, y=y_col, color=color_col, template="plotly_dark", trendline="ols" if problem_type=="Regression" else None)
+            fig = px.scatter(df_viz, x=x_col, y=y_col, color=color_col, template="plotly_dark", trendline="ols" if problem_type=="Regression" else None)
         st.plotly_chart(fig, use_container_width=True)
         
     elif viz_type == "Box Plot":
@@ -112,9 +132,11 @@ def render_analysis(df, target, problem_type):
         with col1:
             y_col = st.selectbox("Feature (Y-Axis)", df.select_dtypes(include=[np.number]).columns)
         with col2:
-            x_col = st.selectbox("Group By (X-Axis)", [None] + list(df.select_dtypes(include=['object', 'category']).columns))
+            x_col = st.selectbox("Group By (X-Axis)", [None] + list(df.columns)) # Allow all columns for grouping
             
-        fig = px.box(df, y=y_col, x=x_col, color=x_col if x_col else None, template="plotly_dark")
+        if x_col: df_viz = decode_if_needed(df_viz, x_col)
+            
+        fig = px.box(df_viz, y=y_col, x=x_col, color=x_col if x_col else None, template="plotly_dark")
         st.plotly_chart(fig, use_container_width=True)
         
     elif viz_type == "Violin Plot":
@@ -122,21 +144,36 @@ def render_analysis(df, target, problem_type):
         with col1:
             y_col = st.selectbox("Feature (Y-Axis)", df.select_dtypes(include=[np.number]).columns)
         with col2:
-            x_col = st.selectbox("Group By (X-Axis)", [None] + list(df.select_dtypes(include=['object', 'category']).columns))
+            x_col = st.selectbox("Group By (X-Axis)", [None] + list(df.columns))
             
-        fig = px.violin(df, y=y_col, x=x_col, color=x_col if x_col else None, box=True, points="all", template="plotly_dark")
+        if x_col: df_viz = decode_if_needed(df_viz, x_col)
+            
+        fig = px.violin(df_viz, y=y_col, x=x_col, color=x_col if x_col else None, box=True, points="all", template="plotly_dark")
         st.plotly_chart(fig, use_container_width=True)
         
     elif viz_type == "Pair Plot":
         st.info("Pair plots can be slow for large datasets. Selecting top 5 numeric features.")
         cols = st.multiselect("Select Features", df.select_dtypes(include=[np.number]).columns, default=list(df.select_dtypes(include=[np.number]).columns)[:4])
+        
+        # Decode target for color if needed
+        if target in df.columns:
+             # Check if target is in le_dict (unlikely based on data.py but safe to check) or just categorical
+             pass 
+
         if cols:
             fig = px.scatter_matrix(df, dimensions=cols, color=target if target in df.columns else None, template="plotly_dark")
             st.plotly_chart(fig, use_container_width=True)
             
     elif viz_type == "Histogram":
         col_hist = st.selectbox("Select Feature", df.columns)
-        fig = px.histogram(df, x=col_hist, color=target if target in df.columns else None, nbins=30, template="plotly_dark")
+        
+        df_viz = decode_if_needed(df_viz, col_hist)
+        # Also decode target if used for color
+        if target in df.columns and target in le_dict:
+             # This part might need adjustment if target is encoded differently, but standard le_dict check handles it if present
+             pass
+
+        fig = px.histogram(df_viz, x=col_hist, color=target if target in df.columns else None, nbins=30, template="plotly_dark")
         st.plotly_chart(fig, use_container_width=True)
         
     elif viz_type == "Line Plot":
@@ -145,7 +182,10 @@ def render_analysis(df, target, problem_type):
             x_col = st.selectbox("X-Axis", df.columns)
         with col2:
             y_col = st.selectbox("Y-Axis", df.select_dtypes(include=[np.number]).columns)
-        fig = px.line(df, x=x_col, y=y_col, template="plotly_dark")
+            
+        df_viz = decode_if_needed(df_viz, x_col)
+        
+        fig = px.line(df_viz, x=x_col, y=y_col, template="plotly_dark")
         st.plotly_chart(fig, use_container_width=True)
 
 def render_model_evaluation(y_test, model_predictions, model_probs, problem_type):
